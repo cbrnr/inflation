@@ -32,9 +32,15 @@ df |>
     mutate(inflation=HICP / HICP12 * 100 - 100) |>
     ungroup() |> 
     ggplot(mapping=aes(x=date, y=inflation, color=geo)) +
-    geom_line() +
+    geom_line(linewidth=1) +
+    geom_point() +
     labs(x=NULL, y="Inflation (%)") +
-    scale_x_date(date_breaks="1 year", date_labels="%y") +
+    scale_x_date(
+        date_breaks="3 months",
+        date_minor_breaks="1 month",
+        date_labels="%b %y",
+        limits=c(as.Date("2020-01-01"), NA)
+    ) +
     scale_y_continuous(breaks=function(x, n) { floor(x[1]):ceiling(x[2]) })
 
 # TODO: support data from countries like CH, where the data starts later than 1997
